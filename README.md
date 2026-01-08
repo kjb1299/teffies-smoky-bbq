@@ -1,3 +1,8 @@
+## Project Overview
+
+This project is a web application built with Next.js and MongoDB.
+It is currently in early development and serves as a full-stack portfolio project.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
