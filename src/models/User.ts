@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema<IUser>(
         passwordResetExpires: {
             type: Date,
         },
+        mustChangePassword: {
+            type: Boolean,
+            default: false,
+        }
     },
     { timestamps: true}
 );

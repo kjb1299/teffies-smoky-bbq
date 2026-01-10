@@ -5,4 +5,5 @@ export interface IUser extends Document {
   role: "user" | "admin";
   passwordResetToken?: string;
   passwordResetExpires?: Date;
+  mustChangePassword: boolean;
 }
