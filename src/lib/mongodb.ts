@@ -43,4 +43,13 @@ async function dbConnect(): Promise<typeof mongoose> {
   return cached.conn;
 }
 
+async function dbDisconnect() {
+  if (cached.conn) {
+    await mongoose.disconnect();
+    cached.conn = null;
+    cached.promise = null;
+  }
+}
+
 export default dbConnect;
+export { dbDisconnect };
