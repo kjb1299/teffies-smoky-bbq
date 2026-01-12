@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.32.1",
     "bcryptjs": "^3.0.3",
     "mongoose": "^9.1.2",
     "next": "16.1.1",
