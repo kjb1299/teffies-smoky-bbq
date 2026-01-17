@@ -1,3 +1,4 @@
+// src/proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 import { authGuard } from "./middleware/auth-guard";
 
@@ -7,5 +8,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*"],
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.svg$).*)"],
 };
