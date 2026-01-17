@@ -2,11 +2,16 @@ import { SignJWT, jwtVerify } from 'jose';
 
 const secret = new TextEncoder().encode(process.env.ADMIN_JWT_SECRET!);
 
-export async function encrypt(payload: any) {
+export async function encrypt(payload: { 
+    adminId: string; 
+    role: string; 
+    expiresAt: Date; 
+    mustChangePassword?: boolean 
+}) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
         .setIssuedAt()
-        .setExpirationTime('8h')
+        .setExpirationTime(payload.expiresAt) 
         .sign(secret);
 }
 
