@@ -4,13 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from 'next/link';
 import NavLogo from '../../public/assets/logo.png';
-import { Zilla_Slab } from 'next/font/google';
-
-const brandFont = Zilla_Slab({ 
-  subsets: ['latin'], 
-  weight: ['700'], 
-  style: ['normal']
-});
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +12,7 @@ export default function Navigation() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#1E1E1E]/95 backdrop-blur-md text-white p-3 md:px-10 shadow-xl border-b border-white/10">
-      <div className="flex justify-between items-center max-w-[1600px] mx-auto w-full">
+      <div className="flex justify-between items-center max-w-400 mx-auto w-full">
         
         <Link href="/" className="flex items-center group cursor-pointer">
           <Image 
@@ -29,7 +22,7 @@ export default function Navigation() {
             height={65}
              className="transition-transform duration-200 active:scale-115 cursor-pointer"
           />
-          <h1 className={`${brandFont.className} ml-4 text-2xl uppercase tracking-widest font-bold`}>
+          <h1 className="font-zilla ml-4 text-2xl uppercase tracking-widest font-bold">
             <span className="bg-clip-text text-transparent bg-stone-300">
               Teffie&apos;s Smoky BBQ
             </span>
@@ -70,7 +63,7 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <nav className="md:hidden absolute top-[77px] left-0 w-full bg-[#1E1E1E]/95 p-6 flex flex-col space-y-6 text-center shadow-2xl">
+        <nav className="md:hidden absolute top-19.25 left-0 w-full bg-[#1E1E1E]/95 p-6 flex flex-col space-y-6 text-center shadow-2xl">
           {menuItems.map((item) => (
             <Link 
               key={item}
