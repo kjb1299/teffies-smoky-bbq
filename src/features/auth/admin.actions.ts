@@ -21,8 +21,8 @@ export async function resetPasswordAction(
       const password = formData.get("password") as string;
       const confirm = formData.get("confirmPassword") as string;
 
-      if (!password || password.length < 8) {
-        return { error: "Password must be at least 8 characters." };
+      if (!password || password.length < 12) {
+        return { error: "Password must be at least 12 characters." };
       }
       if (password !== confirm) {
         return { error: "Passwords do not match." };
@@ -37,7 +37,7 @@ export async function resetPasswordAction(
         return { error: "Session expired. Please log in again." };
       }
 
-      const hashedPassword = await bcrypt.hash(password, 8);
+      const hashedPassword = await bcrypt.hash(password, 12);
       await User.findByIdAndUpdate(session.adminId, {
         passwordHash: hashedPassword,
         mustChangePassword: false,
