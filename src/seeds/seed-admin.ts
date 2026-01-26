@@ -6,33 +6,30 @@ const {
   ADMIN_EMAIL,
   ADMIN_USERNAME,
   ADMIN_TEMP_PASSWORD,
+  NODE_ENV
 } = process.env;
 
 const adminEmail = ADMIN_EMAIL?.trim();
 const adminUsername = ADMIN_USERNAME?.trim();
 const adminPassword = ADMIN_TEMP_PASSWORD?.trim();
 
-if (!adminEmail || !adminUsername || !adminPassword) {
-  throw new Error("Admin user environment variables are not properly defined.");
-}
-
 async function seedAdmin(): Promise<void> {
   try {
     await dbConnect();
-    console.log("Connected to MongoDB for seeding.");
+    const isProd = NODE_ENV === "production";
+    
+    console.log(`Running in ${isProd ? "PRODUCTION" : "DEVELOPMENT"} mode.`);
 
     const existingUser = await User.findOne({ email: adminEmail });
 
     if (existingUser) {
-      if (existingUser.role !== "admin") {
-        existingUser.role = "admin";
-        existingUser.mustChangePassword = true
-        await existingUser.save();
-        console.log(`Updated user ${adminEmail} to admin role.`);
+      if (isProd) {
+        console.log(`[SAFE] Admin ${adminEmail} already exists. Skipping seed.`);
+        return;
       } else {
-        console.log(`Admin user ${adminEmail} already exists.`);
+        await User.deleteOne({ email: adminEmail });
+        console.log(`[RESET] Existing dev admin ${adminEmail} deleted.`);
       }
-      return;
     }
 
     const passwordHash = await bcrypt.hash(adminPassword!, 10);
@@ -47,18 +44,17 @@ async function seedAdmin(): Promise<void> {
 
     await adminUser.save();
 
-    console.log(`Admin user ${adminUsername} created`, {
+    console.log(`[SUCCESS] Admin user "${adminUsername}" ${isProd ? "Bootstrapped" : "Reset"}:`, {
       email: adminEmail,
-      username: adminUsername,
+      env: isProd ? "PRODUCTION" : "DEVELOPMENT"
     });
+
+  } catch (err) {
+    console.error("Seeding Error:", err);
+    process.exit(1);
   } finally {
     await dbDisconnect();
   }
 }
 
-seedAdmin()
-  .then(() => process.exit(0))
-  .catch((err: unknown) => {
-    console.error("Error seeding admin user:", err);
-    process.exit(1);
-  });
+seedAdmin();
