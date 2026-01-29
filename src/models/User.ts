@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import { Document } from "mongoose";
 import { IUser } from "../types/user";
-
-
 
 
 const UserSchema = new mongoose.Schema<IUser>(
